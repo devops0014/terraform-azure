@@ -1,8 +1,25 @@
+terraform {
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "~>3.0"
+    }
+    random = {
+      source  = "hashicorp/random"
+      version = "~>3.5"
+    }
+  }
+}
 
 provider "azurerm" {
   features {}
 }
 
+resource "random_string" "rand" {
+  length  = 6
+  special = false
+  upper   = false
+}
 
 resource "azurerm_resource_group" "example" {
   name     = "example-resources"
@@ -10,7 +27,7 @@ resource "azurerm_resource_group" "example" {
 }
 
 resource "azurerm_storage_account" "example" {
-  name                     = "storageaccountname"
+  name                     = "tfstor${random_string.rand.result}"
   resource_group_name      = azurerm_resource_group.example.name
   location                 = azurerm_resource_group.example.location
   account_tier             = "Standard"

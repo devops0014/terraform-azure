@@ -1,6 +1,6 @@
 name: Terraform Azure
 
-on:
+on: 
   push:
     branches:
       - main
